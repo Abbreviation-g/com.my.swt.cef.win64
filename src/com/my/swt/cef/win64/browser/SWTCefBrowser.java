@@ -1,7 +1,6 @@
 package com.my.swt.cef.win64.browser;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,12 +38,11 @@ public class SWTCefBrowser extends Composite {
     private JTextField address_;
 	private Frame frame_;
 
-	String startURL = "https://www.baidu.com";
+	String startURL = "about:blank";
 	public SWTCefBrowser(Composite parent) {
 		super(parent, SWT.EMBEDDED);
 		this.setLayout(new FillLayout());
 		this.setLayoutData(new GridData(GridData.FILL_BOTH));
-		createBrowser();
 		super.setDragDetect(true);
 	}
 
@@ -54,6 +52,9 @@ public class SWTCefBrowser extends Composite {
 	 * @return
 	 */
 	public boolean setUrl(String url) {
+		if(browser_ == null){
+			createBrowser(url);
+		}
 		if (browser_.isLoading()) {
 			browser_.stopLoad();
 		}
@@ -63,10 +64,10 @@ public class SWTCefBrowser extends Composite {
 	
 
 	public void executeJavaScript(String script){
-		browser_.executeJavaScript(script, "", 1);		
+		browser_.executeJavaScript(script, "about:blank", 1);		
 	}
 	
-	private void createBrowser() {
+	private void createBrowser(String url) {
 		
         CefApp.addAppHandler(new CefAppHandlerAdapter(null) {
             @Override
@@ -81,7 +82,7 @@ public class SWTCefBrowser extends Composite {
 
         client_ = cefApp_.createClient();
 
-        browser_ = client_.createBrowser(startURL, false,	false);
+        browser_ = client_.createBrowser(url, false,	false);
         
         client_.addDisplayHandler(new CefDisplayHandlerAdapter() {
             @Override
@@ -90,7 +91,7 @@ public class SWTCefBrowser extends Composite {
             }
         });
 
-        address_ = new JTextField(startURL, 100);
+        address_ = new JTextField(url, 100);
         address_.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -170,8 +171,8 @@ public class SWTCefBrowser extends Composite {
 		
 		
 		SWTCefBrowser browser = new SWTCefBrowser (shell);
-		browser.setUrl("www.baidu.com");
-//		browser.setUrl("file:///C:/Users/guoenjing/Desktop/note/add_series.html");
+//		browser.setUrl("www.baidu.com");
+		browser.setUrl("file:///C:/Users/guoenjing/Desktop/note/add_series.html");
 		
 		shell.open();
 		while(!shell.isDisposed()) {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            class="com.my.swt.cef.win64.view.CEFBrowserView"
+            id="com.my.swt.cef.win64.view.example"
+            name="SWT CEF View"
+            restorable="true">
+      </view>
+   </extension>
+
+</plugin>

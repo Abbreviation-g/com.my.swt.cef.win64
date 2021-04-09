@@ -1,5 +1,10 @@
 package com.my.swt.cef.win64;
 
+import java.io.File;
+import java.net.URL;
+
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -27,6 +32,12 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		
+		Path path = new Path("/lib/win64");
+		URL url = FileLocator.find(plugin.getBundle(), path, null);
+		String dir = new File(FileLocator.toFileURL(url).getFile()).getAbsolutePath();
+		SystemPathUtil.addLibraryPath(dir);
+		System.setProperty("cef.path", dir);
 	}
 
 	/*
